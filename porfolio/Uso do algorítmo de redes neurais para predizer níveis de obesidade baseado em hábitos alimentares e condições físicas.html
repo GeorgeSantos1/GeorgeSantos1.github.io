@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)https://georgesantos1.github.io/T1/ -->
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Redes Neurais - Aplicação</title>
+<meta name="generator" content="Jekyll v3.9.0">
+<meta property="og:title" content="Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas.">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://georgesantos1.github.io/T1/">
+<meta property="og:url" content="https://georgesantos1.github.io/T1/">
+<meta property="og:site_name" content="T1">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas.">
+<script type="application/ld+json">
+{"url":"https://georgesantos1.github.io/T1/","@type":"WebSite","headline":"Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas.","name":"T1","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="./Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas/style.css">
+  <style type="text/css"></style></head>
+  <body>
+    <section class="page-header">
+      
+        <a href="#" class="btn">View on GitHub</a>
+      
+      
+    </section>
+
+    <section class="main-content">
+      <h1 id="uso-do-algorítmo-de-redes-neurais-para-predizer-níveis-de-obesidade-baseado-em-hábitos-alimentares-e-condições-físicas"><strong>Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas.</strong></h1>
+<h4 id="george-anderson-a-dos-santos"><em>George Anderson A. dos Santos</em></h4>
+
+<p>Ao decorrer da história da humanidade, acúmulo de peso e reservas exageradas de gordura foram vistos como sinais de saúde e prosperidade [1]. Em tempos de muito trabalho e 
+frequente escassez de alimentos, assegurar uma ingestão energética adequada para manter as necessidades mínimas de sobrevivência foi indispensável para a evolução da espécie 
+humana, durante séculos e séculos de privações e carências calórico-protéicas, onde eram necessários muito trabalho, principalmente físico, para a obtenção e preparo dos alimentos. 
+Hoje, no entanto, como existe facilidade para se obter alimentos, e o padrão de vida está cada vez mais sedentário, as pessoas comem cada vez mais e se movimentam cada vez menos, 
+levando a um superávit calórico e favorecendo a obesidade nas pessoas predispostas geneticamente, tornando-se então numa ameaça que cresce como uma gigantesca onda, que ameaça a 
+saúde dos habitantes da maioria das nações, principalmente as do mundo ocidental [1]. Dessa maneira, cada vez mais a obesidade vem chamando a atenção da comunidade científica, 
+por mostrar-se uma doença grave, multifacetada e de genética complexa, que, associada às suas co-morbidades, se acompanha de elevada morbi-mortalidade, principalmente por doença 
+cardiovascular, além de inúmeras outras complicações [2]. Dada a relevância do tema, será realizada uma aplicação do algorimo de redes neurais objetivando predizer os níveis de 
+obesidade/peso com base nos hábitos alimentares e condições físicas.</p>
+
+<h2 id="aplicação">Aplicação</h2>
+
+<p>Banco de dados com 17 variáveis e 2111 observações, com informações sobre hábitos alimentares e condições físicas de indivíduos nascidos no México, Peru e Colômbia [3].</p>
+
+<h3 id="carregamento-de-módulos">Carregamento de módulos</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+<span class="kn">from</span> <span class="nn">keras.optimizers</span> <span class="kn">import</span> <span class="n">Adam</span> 
+<span class="kn">from</span> <span class="nn">keras.callbacks</span> <span class="kn">import</span> <span class="n">EarlyStopping</span>   
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+</code></pre></div></div>
+
+<h3 id="carregando-base-de-dados">Carregando base de dados</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataset</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"https://raw.githubusercontent.com/GeorgeSantos1/TopicosA/main/Trabalho1/ObesityDataSet_raw_and_data_sinthetic.csv"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Convertendo variáveis do tipo “objeto” para o tipo “categóricas”</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataset</span><span class="p">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">dataset</span><span class="p">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="s">'object'</span><span class="p">]</span> <span class="o">=</span>\
+    <span class="n">dataset</span><span class="p">.</span><span class="n">select_dtypes</span><span class="p">([</span><span class="s">'object'</span><span class="p">])</span>\
+    <span class="p">.</span><span class="nb">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">.</span><span class="n">astype</span><span class="p">(</span><span class="s">'category'</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Visualização da base de dados</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataset</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Gender</th>
+      <th>Age</th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>family_history_with_overweight</th>
+      <th>FAVC</th>
+      <th>FCVC</th>
+      <th>NCP</th>
+      <th>CAEC</th>
+      <th>SMOKE</th>
+      <th>CH2O</th>
+      <th>SCC</th>
+      <th>FAF</th>
+      <th>TUE</th>
+      <th>CALC</th>
+      <th>MTRANS</th>
+      <th>NObeyesdad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Female</td>
+      <td>21.0</td>
+      <td>1.62</td>
+      <td>64.0</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>Sometimes</td>
+      <td>no</td>
+      <td>2.0</td>
+      <td>no</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>no</td>
+      <td>Public_Transportation</td>
+      <td>Normal_Weight</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Female</td>
+      <td>21.0</td>
+      <td>1.52</td>
+      <td>56.0</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>3.0</td>
+      <td>3.0</td>
+      <td>Sometimes</td>
+      <td>yes</td>
+      <td>3.0</td>
+      <td>yes</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>Sometimes</td>
+      <td>Public_Transportation</td>
+      <td>Normal_Weight</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Male</td>
+      <td>23.0</td>
+      <td>1.80</td>
+      <td>77.0</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>Sometimes</td>
+      <td>no</td>
+      <td>2.0</td>
+      <td>no</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>Frequently</td>
+      <td>Public_Transportation</td>
+      <td>Normal_Weight</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Male</td>
+      <td>27.0</td>
+      <td>1.80</td>
+      <td>87.0</td>
+      <td>no</td>
+      <td>no</td>
+      <td>3.0</td>
+      <td>3.0</td>
+      <td>Sometimes</td>
+      <td>no</td>
+      <td>2.0</td>
+      <td>no</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>Frequently</td>
+      <td>Walking</td>
+      <td>Overweight_Level_I</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Male</td>
+      <td>22.0</td>
+      <td>1.78</td>
+      <td>89.8</td>
+      <td>no</td>
+      <td>no</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>Sometimes</td>
+      <td>no</td>
+      <td>2.0</td>
+      <td>no</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>Sometimes</td>
+      <td>Public_Transportation</td>
+      <td>Overweight_Level_II</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="descritiva">Descritiva</h3>
+
+<p>gráficos de colunas para a variável “níveis de obesidade”, que exibe balanceamento entre a distribuição das categorias de peso.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s">"whitegrid"</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s">'NObeyesdad'</span><span class="p">,</span>
+              <span class="n">palette</span><span class="o">=</span><span class="s">"Blues_d"</span><span class="p">).</span><span class="nb">set</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">'Gráfico de barras horizontais para categorias de peso'</span><span class="p">,</span>
+                                     <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Frequência"</span><span class="p">,</span>
+                                     <span class="n">ylabel</span> <span class="o">=</span> <span class="s">'Catgeorias de peso'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="./Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas/output_14_0.png" alt="png"></p>
+
+<p>Algumas informações sumarizadas para as variáveis contínuas. Com base nos resultados, não há necessidade de imputar valores ou arrumar inconsistência nos dados.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataset</span><span class="p">.</span><span class="n">describe</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Age</th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>FCVC</th>
+      <th>NCP</th>
+      <th>CH2O</th>
+      <th>FAF</th>
+      <th>TUE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>2111.000000</td>
+      <td>2111.000000</td>
+      <td>2111.000000</td>
+      <td>2111.000000</td>
+      <td>2111.000000</td>
+      <td>2111.000000</td>
+      <td>2111.000000</td>
+      <td>2111.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>24.312600</td>
+      <td>1.701677</td>
+      <td>86.586058</td>
+      <td>2.419043</td>
+      <td>2.685628</td>
+      <td>2.008011</td>
+      <td>1.010298</td>
+      <td>0.657866</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>6.345968</td>
+      <td>0.093305</td>
+      <td>26.191172</td>
+      <td>0.533927</td>
+      <td>0.778039</td>
+      <td>0.612953</td>
+      <td>0.850592</td>
+      <td>0.608927</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>14.000000</td>
+      <td>1.450000</td>
+      <td>39.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>19.947192</td>
+      <td>1.630000</td>
+      <td>65.473343</td>
+      <td>2.000000</td>
+      <td>2.658738</td>
+      <td>1.584812</td>
+      <td>0.124505</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>22.777890</td>
+      <td>1.700499</td>
+      <td>83.000000</td>
+      <td>2.385502</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>0.625350</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>26.000000</td>
+      <td>1.768464</td>
+      <td>107.430682</td>
+      <td>3.000000</td>
+      <td>3.000000</td>
+      <td>2.477420</td>
+      <td>1.666678</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>61.000000</td>
+      <td>1.980000</td>
+      <td>173.000000</td>
+      <td>3.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="modificando-base-de-dados">Modificando base de dados</h3>
+
+<p>Retirando as colunas “Height” e “Weight” da base de dados</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'Height'</span><span class="p">,</span><span class="s">'Weight'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>Separando os dados em <strong>x_data</strong> e <strong>y_data</strong>, onde <strong>x_data</strong> contém as variáveis utilizadas para predição dos níveis de obesidade e <strong>y_data</strong> contém a variável que representa o nível de obesidade.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x_data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">y_data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
+</code></pre></div></div>
+
+<h3 id="splitando-dados-em-bases-de-treino-e-teste">Splitando dados em bases de treino e teste</h3>
+
+<p>Splitando os dados, considerando a proporção de 80% para treinamento e 20% para teste.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">treino_x</span><span class="p">,</span> <span class="n">teste_x</span><span class="p">,</span> <span class="n">treino_y</span><span class="p">,</span> <span class="n">teste_y</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span><span class="n">y_data</span><span class="p">,</span>
+                                                        <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+                                                        <span class="n">random_state</span><span class="o">=</span> <span class="mi">42</span><span class="p">,</span>
+                                                        <span class="n">stratify</span> <span class="o">=</span> <span class="n">y_data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Criando “dummies” para variáveis categóricas</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">treino_y</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">treino_y</span><span class="p">)</span>
+<span class="n">treino_x</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">treino_x</span><span class="p">)</span>
+<span class="n">teste_x</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">teste_x</span><span class="p">)</span>
+<span class="n">teste_y</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">teste_y</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Ajustando a escala das variáveis numéricas</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sc</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+
+<span class="n">treino_x</span> <span class="o">=</span> <span class="n">sc</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">treino_x</span><span class="p">)</span>
+<span class="n">teste_x</span> <span class="o">=</span> <span class="n">sc</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">teste_x</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="criação-do-modelo-de-redes-neurais">Criação do modelo de redes neurais</h3>
+
+<p>Criação da função que gera modelos com uma camada oculta</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">Modelo_OneHL</span><span class="p">(</span><span class="n">n_camadas</span><span class="p">,</span><span class="n">act_HL</span><span class="p">,</span><span class="n">act_OL</span><span class="p">):</span>
+  <span class="n">classificador</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+  <span class="n">classificador</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="n">n_camadas</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span> <span class="n">act_HL</span>  <span class="p">,</span> <span class="n">input_dim</span> <span class="o">=</span> <span class="mi">29</span><span class="p">))</span>
+  <span class="n">classificador</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span> <span class="n">act_OL</span><span class="p">))</span>
+  
+  <span class="n">alg</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span>
+
+  <span class="n">classificador</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span> <span class="n">alg</span><span class="p">,</span> <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s">'accuracy'</span><span class="p">],</span> <span class="n">loss</span> <span class="o">=</span> <span class="s">'binary_crossentropy'</span><span class="p">)</span>
+
+  <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> 
+
+  <span class="n">parada</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span> <span class="o">=</span> <span class="s">'loss'</span><span class="p">,</span> <span class="n">patience</span> <span class="o">=</span> <span class="mi">25</span><span class="p">)</span>
+  <span class="n">hist</span> <span class="o">=</span> <span class="n">classificador</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">treino_x</span><span class="p">,</span> <span class="n">treino_y</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="n">validation_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">teste_x</span><span class="p">,</span> <span class="n">teste_y</span><span class="p">),</span>
+                  <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="n">callbacks</span> <span class="o">=</span> <span class="n">parada</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+  
+  <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Duração: </span><span class="si">{</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="si">}</span><span class="s"> segundos'</span><span class="p">)</span>
+  
+  <span class="n">_</span><span class="p">,</span> <span class="n">acc_treino</span> <span class="o">=</span> <span class="n">classificador</span><span class="p">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">treino_x</span><span class="p">,</span> <span class="n">treino_y</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">_</span><span class="p">,</span> <span class="n">acc_teste</span> <span class="o">=</span> <span class="n">classificador</span><span class="p">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">teste_x</span><span class="p">,</span> <span class="n">teste_y</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Performace no treino: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">acc_treino</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s"> -- Performace no teste: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">acc_teste</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">hist</span>
+
+</code></pre></div></div>
+
+<p>Criação da função que gera modelos com duas camadas ocultas</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">Modelo_TwoHL</span><span class="p">(</span><span class="n">n_camadas1</span><span class="p">,</span><span class="n">act_HL1</span><span class="p">,</span><span class="n">n_camadas2</span><span class="p">,</span><span class="n">act_HL2</span><span class="p">,</span><span class="n">act_OL</span><span class="p">):</span>
+  <span class="n">classificador</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+  <span class="n">classificador</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="n">n_camadas1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span> <span class="n">act_HL1</span><span class="p">,</span> <span class="n">input_dim</span> <span class="o">=</span> <span class="mi">29</span><span class="p">))</span>
+  <span class="n">classificador</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="n">n_camadas2</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span> <span class="n">act_HL2</span><span class="p">))</span>
+  <span class="n">classificador</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span> <span class="n">act_OL</span><span class="p">))</span>
+  
+  <span class="n">alg</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span>
+
+  <span class="n">classificador</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span> <span class="n">alg</span><span class="p">,</span> <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s">'accuracy'</span><span class="p">],</span> <span class="n">loss</span> <span class="o">=</span> <span class="s">'binary_crossentropy'</span><span class="p">)</span>
+
+  <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> 
+
+  <span class="n">parada</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span> <span class="o">=</span> <span class="s">'loss'</span><span class="p">,</span> <span class="n">patience</span> <span class="o">=</span> <span class="mi">25</span><span class="p">)</span>
+  <span class="n">hist</span> <span class="o">=</span> <span class="n">classificador</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">treino_x</span><span class="p">,</span> <span class="n">treino_y</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="n">validation_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">teste_x</span><span class="p">,</span> <span class="n">teste_y</span><span class="p">),</span>
+                  <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="n">callbacks</span> <span class="o">=</span> <span class="n">parada</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+  <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Duração: </span><span class="si">{</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="si">}</span><span class="s"> segundos'</span><span class="p">)</span>
+  
+  <span class="n">_</span><span class="p">,</span> <span class="n">acc_treino</span> <span class="o">=</span> <span class="n">classificador</span><span class="p">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">treino_x</span><span class="p">,</span> <span class="n">treino_y</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">_</span><span class="p">,</span> <span class="n">acc_teste</span> <span class="o">=</span> <span class="n">classificador</span><span class="p">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">teste_x</span><span class="p">,</span> <span class="n">teste_y</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Performace no treino: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">acc_treino</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s"> -- Performace no teste: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">acc_teste</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">hist</span>
+</code></pre></div></div>
+
+<p>Criação de função geradora de gráficos</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">Gera_Graf</span><span class="p">(</span><span class="n">modelo</span><span class="p">):</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">use</span><span class="p">(</span><span class="s">'ggplot'</span><span class="p">)</span>
+
+  <span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Função de Perda'</span><span class="p">)</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">modelo</span><span class="p">.</span><span class="n">history</span><span class="p">[</span><span class="s">'loss'</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">'TREINO'</span><span class="p">)</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">modelo</span><span class="p">.</span><span class="n">history</span><span class="p">[</span><span class="s">'val_loss'</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">'TESTE'</span><span class="p">)</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s">'lower left'</span><span class="p">)</span> 
+
+<span class="c1"># plot accuracy during training
+</span>  <span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Acurácia'</span><span class="p">)</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">modelo</span><span class="p">.</span><span class="n">history</span><span class="p">[</span><span class="s">'accuracy'</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">'TREINO'</span><span class="p">)</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">modelo</span><span class="p">.</span><span class="n">history</span><span class="p">[</span><span class="s">'val_accuracy'</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">'TESTE'</span><span class="p">)</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s">'lower left'</span><span class="p">)</span>
+
+  <span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><strong>Modelo com uma camada oculta e diferentes quantidades de neurônios e funções de ativação</strong></p>
+</blockquote>
+
+<ol>
+  <li>Modelo com 10 neurônios e funções de ativação “relu” e “softmax”</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Modelo1</span> <span class="o">=</span> <span class="n">Modelo_OneHL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="s">'relu'</span><span class="p">,</span><span class="s">'softmax'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Duração: 35.53294825553894 segundos
+Performace no treino: 0.77 -- Performace no teste: 0.664
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Gera_Graf</span><span class="p">(</span><span class="n">Modelo1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="./Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas/output_39_0.png" alt="png"></p>
+
+<ol>
+  <li>Modelo com 100 neurônios e funções de ativação “relu” e “softmax”</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Modelo2</span> <span class="o">=</span> <span class="n">Modelo_OneHL</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="s">'relu'</span><span class="p">,</span><span class="s">'softmax'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Duração: 19.939672708511353 segundos
+Performace no treino: 0.956 -- Performace no teste: 0.742
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Gera_Graf</span><span class="p">(</span><span class="n">Modelo2</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="./Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas/output_42_0.png" alt="png"></p>
+
+<ol>
+  <li>Modelo com 100 neurônios e funções de ativação “tanh” e “softmax”</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Modelo3</span> <span class="o">=</span> <span class="n">Modelo_OneHL</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="s">'tanh'</span><span class="p">,</span><span class="s">'softmax'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Duração: 43.110496282577515 segundos
+Performace no treino: 0.969 -- Performace no teste: 0.735
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Gera_Graf</span><span class="p">(</span><span class="n">Modelo3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="./Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas/output_45_0.png" alt="png"></p>
+
+<ol>
+  <li>Modelo com 100 neurônios e funções de ativação “elu” e “sigmoid”</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Modelo4</span> <span class="o">=</span> <span class="n">Modelo_OneHL</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="s">'elu'</span><span class="p">,</span><span class="s">'sigmoid'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Duração: 52.15087366104126 segundos
+Performace no treino: 0.949 -- Performace no teste: 0.702
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Gera_Graf</span><span class="p">(</span><span class="n">Modelo4</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="./Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas/output_48_0.png" alt="png"></p>
+
+<ol>
+  <li>Modelo com 100 neurônios e funções de ativação “elu” e “softmax”</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Modelo5</span> <span class="o">=</span> <span class="n">Modelo_OneHL</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="s">'elu'</span><span class="p">,</span><span class="s">'softmax'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Duração: 33.379266023635864 segundos
+Performace no treino: 0.933 -- Performace no teste: 0.719
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Gera_Graf</span><span class="p">(</span><span class="n">Modelo5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="./Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas/output_51_0.png" alt="png"></p>
+
+<blockquote>
+  <p><strong>Modelo com duas camadas ocultas e diferentes quantidades de neurônios e funções de ativação</strong></p>
+</blockquote>
+
+<ol>
+  <li>Modelo com 10 e 10 neurônios, unções de ativação “relu” e “softmax”</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Modelo6</span> <span class="o">=</span>  <span class="n">Modelo_TwoHL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="s">'relu'</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="s">'relu'</span><span class="p">,</span><span class="s">'softmax'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Duração: 35.15542912483215 segundos
+Performace no treino: 0.822 -- Performace no teste: 0.669
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Gera_Graf</span><span class="p">(</span><span class="n">Modelo6</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="./Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas/output_55_0.png" alt="png"></p>
+
+<ol>
+  <li>Modelo com 50 e 50 neurônios e funções de ativação “relu” e “softmax”</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Modelo7</span> <span class="o">=</span>  <span class="n">Modelo_TwoHL</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="s">'relu'</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="s">'relu'</span><span class="p">,</span><span class="s">'softmax'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Duração: 15.323403596878052 segundos
+Performace no treino: 0.964 -- Performace no teste: 0.735
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Gera_Graf</span><span class="p">(</span><span class="n">Modelo7</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Modelo com 50 e 50 neurônios e funções de ativação “tanh” e “sigmoid”</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Modelo8</span> <span class="o">=</span>  <span class="n">Modelo_TwoHL</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="s">'tanh'</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="s">'tanh'</span><span class="p">,</span><span class="s">'sigmoid'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Duração: 23.887630701065063 segundos
+Performace no treino: 0.948 -- Performace no teste: 0.728
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Gera_Graf</span><span class="p">(</span><span class="n">Modelo8</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="./Uso do algorítmo de redes neurais para predizer níveis de obesidade baseado em hábitos alimentares e condições físicas/output_61_0.png" alt="png"></p>
+
+<h3 id="considerações-finais">Considerações finais</h3>
+
+<ul>
+  <li>De forma geral, os modelos de redes neurais ajustados alcançaram resultados razoáveis.</li>
+  <li>Para todos os modelos, a acurácia considerando o banco de teste foi superior à 70%, enquanto que no banco de treinamento foi superior à 85% (exceto modelos com 10 neurônios para camada oculta).</li>
+  <li>Não foi possível observar melhora na acurácia ao alternar as funções de ativação e número de camadas ocultas, única melhora visível na acurácia foi o aumento aumentando o número de neuônios em cada camada oculta (de 10 para 100).</li>
+  <li>Análisando o gráfico da função perda de alguns modelos, é possível observar um sobreajuste do modelo aos dados de treinamento (se ajusta bem aos dados de treinamento, mas não tão bem aos dados de teste).</li>
+  <li>Melhor processamento/tratamento dos dados pode melhorar os resultados encontrados (diminuição do nº de categorias de peso, categorização das variáveis numéricas, técnicas de redução de dimensionalidade e etc).</li>
+  <li>Aparentemente, as melhores funções de ativação para esse problema em específico são ‘relu’(camada oculta) e ‘softmax’(camada de saída). Com relação ao número de camadas e  neurônios, o ideal é que o ‘setup’ seja de uma camada e alta quantidade de neurônios ou duas camadas e cada uma com uma quantidade razoàvel de neurônios. (escolhas levando em consideração, o tempo de processamento e acurácia na base de teste).</li>
+</ul>
+
+<h3 id="referências">Referências</h3>
+
+<ol>
+  <li>Repetto, Giuseppe, Rizzolli, Jacqueline, &amp; Bonatto, Cassiane. (2003). Prevalência, riscos e soluções na obesidade e sobrepeso: Here, There, and Everywhere. <em>Arquivos Brasileiros de Endocrinologia &amp; Metabologia, 47</em>(6), 633-635. https://doi.org/10.1590/S0004-27302003000600001</li>
+  <li>Pontes, Luciano Meireles de, Sousa, Maria do Socorro Cirilo de, &amp; Lima, Roberto Teixeira de. (2006). Perfil dietético, estado nutricional e prevalência de obesidade centralizada em praticantes de futebol recreativo. <em>Revista Brasileira de Medicina do Esporte, 12</em>(4), 201-205. https://doi.org/10.1590/S1517-86922006000400007</li>
+  <li>Palechor, Fabio Mendoza &amp; Manotas, Alexis de la Hoz. (2019). Dataset for estimation of obesity levels based on eating habits and physical condition in individuals from Colombia, Peru and Mexico. <em>Data in Brief</em>. Vol 25. https://doi.org/10.1016/j.dib.2019.104344.</li>
+</ol>
+
+
+
+      <footer class="site-footer">        
+        <span class="site-footer-credits">Essa página foi gerada por <a href="https://pages.github.com/">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+    
+  
+
+</body></html>
