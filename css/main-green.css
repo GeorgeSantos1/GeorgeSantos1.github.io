@@ -2612,6 +2612,7 @@ blockquote footer, blockquote small, blockquote .small {
 
 .blog-post-read-more a{
   cursor: pointer;
+  margin-left: 1rem;
   text-decoration: none;
   font-style: normal;
   border-radius: 0.3rem;

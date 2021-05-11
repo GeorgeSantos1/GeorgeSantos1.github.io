@@ -7,7 +7,7 @@
 
         <meta name="author" content="George Anderson A. dos Santos" />
     
-        <meta name="date" content="2021-05-07" />
+        <meta name="date" content="2021-05-11" />
     
     <title>Análise de formas de adoçamento de sucos com aplicação de métodos não-paramétricos</title>
 
@@ -3181,12 +3181,14 @@ window.onload = function() {
           <ul>
           <li><a href="#introdução">Introdução</a></li>
           <li><a href="#aplicação">Aplicação</a></li>
+          <li><a href="#conclusão">Conclusão</a></li>
+          <li><a href="#referências">Referências</a></li>
           </ul>
         </nav>
         <ul class="authors">
           <li class="divider"></li>
                                 <li><span><i class="glyphicon glyphicon-user"></i> George Anderson A. dos Santos</span></li>
-                                         <li><span><i class="glyphicon glyphicon-calendar"></i> 2021-05-07</span></li>
+                                         <li><span><i class="glyphicon glyphicon-calendar"></i> 2021-05-11</span></li>
                   </ul>     
       </div>
       <div class="book-body fixed">
@@ -3245,6 +3247,12 @@ window.onload = function() {
 <li>Delineamento de Blocos Casualizados</li>
 <li>10 Blocos (Pessoas) e 3 Tratamentos (formas de adoçamento)</li>
 </ul></li>
+<li>Variáveis
+<ul>
+<li>Degustador: representa a identificação de cada degustador (varia de 1 até 10)</li>
+<li>Tratamento: representa as formas de adoçamento utilizadas (açucar,adoçante e natural)</li>
+<li>Nota: representa as notas dadas a cada tipo de tratamento por cada degustador (varia de 5 até 10)</li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -3256,19 +3264,18 @@ window.onload = function() {
 <p><strong>Pacotes utilizados</strong></p>
 </blockquote>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PMCMRplus)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sysfonts)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(extrafont)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(showtext)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">font_add_google</span>(<span class="st">&#39;Roboto Slab&#39;</span>,<span class="st">&#39;Roboto Slab&#39;</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">showtext_auto</span>()</span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PMCMRplus)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sysfonts)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(extrafont)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(showtext)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ez)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">font_add_google</span>(<span class="st">&#39;Roboto Slab&#39;</span>,<span class="st">&#39;Roboto Slab&#39;</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">showtext_auto</span>()</span></code></pre></div>
 <blockquote>
 <p><strong>Dados utilizados</strong></p>
 </blockquote>
@@ -3344,59 +3351,58 @@ window.onload = function() {
 <p><strong>Avaliação do pressuposto de homocedasticidade</strong></p>
 </blockquote>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo ANOVA para medidas repetidas (método paramétrico recomendado)</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>anova_1<span class="ot">&lt;-</span><span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">&quot;Degustador&quot;</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">dv =</span> <span class="st">&quot;Nota&quot;</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span>  Dataset, </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">within =</span> <span class="fu">c</span>(<span class="st">&#39;Tratamento&#39;</span>), </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">&quot;III&quot;</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">lm</span>(Dataset<span class="sc">$</span>Nota<span class="sc">~</span>Dataset<span class="sc">$</span>Tratamento<span class="sc">+</span>Dataset<span class="sc">$</span>Degustador)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(aux)</span></code></pre></div>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sum Sq"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean Sq"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"26.46667","3":"13.233333","4":"7.717063","5":"0.003799644","_rn_":"Dataset$Tratamento"},{"1":"9","2":"33.33333","3":"3.703704","4":"2.159827","5":"0.078577374","_rn_":"Dataset$Degustador"},{"1":"18","2":"30.86667","3":"1.714815","4":"NA","5":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>anova_1<span class="sc">$</span>anova_table</span></code></pre></div>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["num Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["den Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["MSE"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["ges"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1.411725","2":"12.70552","3":"2.42939","4":"7.717063","5":"0.2919118","6":"0.01045298","_rn_":"Tratamento"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Teste de Bartlett</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(<span class="fu">residuals</span>(anova_1) <span class="sc">~</span> Dataset<span class="sc">$</span>Tratamento)</span></code></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">ezANOVA</span>(<span class="at">data =</span> Dataset,        <span class="co"># dados utilizados</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">dv =</span> Nota,             <span class="co"># variável dependente</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">wid =</span> Degustador,      <span class="co"># variável identificadora (bloco)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">within =</span> Tratamento,   <span class="co"># variável preditora (tratamento)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">detailed =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">type=</span> <span class="dv">3</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">return_aov =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Outra forma de Calcular:</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#* modelo &lt;- aov(Nota ~ Tratamento + Degustador,data=Dataset)</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># retendo os resíduos do modelo</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>res.modelo <span class="ot">&lt;-</span> (<span class="fu">proj</span>(modelo<span class="sc">$</span>aov)[[<span class="dv">3</span>]][, <span class="st">&quot;Residuals&quot;</span>])</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Teste de Bartlett</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(res.modelo <span class="sc">~</span> Dataset<span class="sc">$</span>Tratamento)</span></code></pre></div>
 <pre><code>## 
 ##  Bartlett test of homogeneity of variances
 ## 
-## data:  residuals(anova_1) by Dataset$Tratamento
-## Bartlett&#39;s K-squared = 5.174, df = 2, p-value = 0.07525</code></pre>
+## data:  res.modelo by Dataset$Tratamento
+## Bartlett&#39;s K-squared = 2.6337, df = 2, p-value = 0.268</code></pre>
 <p>Com base no <strong>p-valor</strong> e considerando <span class="math inline">\(\alpha\)</span> = 5% não temos evidência para rejeitar a hipótese nula, ou seja, não houve violação do pressuposto de homocedasticidade.</p>
 <blockquote>
 <p><strong>Avaliação do pressuposto de esfericidade</strong></p>
 </blockquote>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_1)<span class="sc">$</span>sphericity.tests</span></code></pre></div>
-<pre><code>##            Test statistic p-value
-## Tratamento        0.58329 0.11576</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>modelo<span class="sc">$</span><span class="st">`</span><span class="at">Mauchly&#39;s Test for Sphericity</span><span class="st">`</span></span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Effect"],"name":[1],"type":["chr"],"align":["left"]},{"label":["W"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["p"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["p<.05"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"Tratamento","2":"0.5832933","3":"0.1157572","4":"","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <p>Considerando um nível de significância de 5% não temos evidência para rejeitar a hipótese nula, ou seja, não houve violação do pressuposto de esfericidade.</p>
 <hr />
-<p>Com base no desenho de estudo, tamanho amostral e resultados descritivos obtidos, o teste de Friedman foi escolhido para comparação dos grupos.</p>
+<p>Com base no delineamento do experimento (delineamento de blocos casualizados), tamanho amostral e resultados descritivos obtidos, o teste de Friedman foi escolhido para comparação dos grupos.</p>
 <blockquote>
 <p><strong>Teste de Friedman</strong></p>
 </blockquote>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Dataset <span class="sc">%&gt;%</span> <span class="fu">friedman_test</span>(Nota <span class="sc">~</span> Tratamento <span class="sc">|</span> Degustador)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Dataset <span class="sc">%&gt;%</span> <span class="fu">friedman_test</span>(Nota <span class="sc">~</span> Tratamento <span class="sc">|</span> Degustador)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":[".y."],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]},{"label":["statistic"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["df"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["method"],"name":[6],"type":["chr"],"align":["left"]}],"data":[{"1":"Nota","2":"10","3":"10.41379","4":"2","5":"0.00547865","6":"Friedman test","_rn_":"1","_row":"Friedman chi-squared"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<blockquote>
+<p>Considerando <span class="math inline">\(\alpha\)</span> = 5% temos evidência para rejeitar a hipótese nula, ou seja, existe diferença entre as formas de adoçamento com relação as notas recebidas (mediana e/ou distribuição das notas).</p>
 <p><strong>PostHoc</strong></p>
+<blockquote>
+<p><strong>Dunn-Bonferroni</strong></p>
 </blockquote>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>PMCMRplus<span class="sc">::</span><span class="fu">frdAllPairsSiegelTest</span>(Dataset<span class="sc">$</span>Nota,</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                                 Dataset<span class="sc">$</span>Tratamento,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                                 Dataset<span class="sc">$</span>Degustador,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">p.adjust =</span> <span class="st">&quot;bonferroni&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>PMCMRplus<span class="sc">::</span><span class="fu">frdAllPairsSiegelTest</span>(Dataset<span class="sc">$</span>Nota,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                                 Dataset<span class="sc">$</span>Tratamento,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                                 Dataset<span class="sc">$</span>Degustador,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">p.adjust =</span> <span class="st">&quot;bonferroni&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Pairwise comparisons using Siegel-Castellan all-pairs test for a two-way balanced complete block design</code></pre>
 <pre><code>## data: y, groups and blocks</code></pre>
@@ -3408,15 +3414,31 @@ window.onload = function() {
 <blockquote>
 <p><strong>Teste de Wilcox com correção de Bonferroni</strong></p>
 </blockquote>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Dataset <span class="sc">%&gt;%</span> rstatix<span class="sc">::</span><span class="fu">wilcox_test</span>(Nota <span class="sc">~</span> Tratamento,</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">paired =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">p.adjust.method =</span> <span class="st">&quot;bonferroni&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Dataset <span class="sc">%&gt;%</span> rstatix<span class="sc">::</span><span class="fu">wilcox_test</span>(Nota <span class="sc">~</span> Tratamento,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">paired =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">p.adjust.method =</span> <span class="st">&quot;bonferroni&quot;</span>)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":[".y."],"name":[1],"type":["chr"],"align":["left"]},{"label":["group1"],"name":[2],"type":["chr"],"align":["left"]},{"label":["group2"],"name":[3],"type":["chr"],"align":["left"]},{"label":["n1"],"name":[4],"type":["int"],"align":["right"]},{"label":["n2"],"name":[5],"type":["int"],"align":["right"]},{"label":["statistic"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["p"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["p.adj"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["p.adj.signif"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"Nota","2":"Açucar","3":"Adoçante","4":"10","5":"10","6":"36","7":"0.014","8":"0.041","9":"*","_rn_":"1"},{"1":"Nota","2":"Açucar","3":"Natural","4":"10","5":"10","6":"21","7":"0.031","8":"0.093","9":"ns","_rn_":"2"},{"1":"Nota","2":"Adoçante","3":"Natural","4":"10","5":"10","6":"6","7":"0.202","8":"0.606","9":"ns","_rn_":"3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
+<p>Com um nível de significância de 5% é possível afirmar que as notas das formas de adoçamento ‘açucar’ e ‘adoçante’ diferem para ambos os métodos utilizados.</p>
 </div>
+</div>
+<div id="conclusão" class="section level2">
+<h2>Conclusão</h2>
+<ul>
+<li><p>Com 95% de confiança é possível afirmar que houve diferença entre as formas de adoçamento de suco (mediana e/ou distribuição das notas das formas de adoçamento diferem).</p></li>
+<li><p>Pelos testes de Dunn-Bonferoni e Wilcox (com correção de bonferroni) considerando 95% de confiança as formas de adoçamento que diferiram foram “açucar” e “Adoçante”, logo ; <span class="math inline">\(açucar^{a}\)</span>, <span class="math inline">\(natural^{a,b}\)</span> e <span class="math inline">\(adoçante^{b}\)</span>.</p></li>
+</ul>
+</div>
+<div id="referências" class="section level2">
+<h2>Referências</h2>
+<ol style="list-style-type: decimal">
+<li><p><em>estatística paramétrica</em> in Infopédia [em linha]. Porto: Porto Editora, 2003-2021. [consult. 2021-05-11 04:34:31]. Disponível na Internet: <a href="https://www.infopedia.pt/$estatistica-parametrica" class="uri">https://www.infopedia.pt/$estatistica-parametrica</a>.</p></li>
+<li><p>Rocha, K. R. da, &amp; Bacelar Júnior, A. J. (2018). Anova Medidas Repetidas E Seus Pressupostos: Análise Passo a Passo De Um Experimento. <em>Revista Eletrônica Perspectivas Da Ciência e Tecnologia - ISSN: 1984-5693, 10, 29.</em> <a href="https://doi.org/10.22407/1984-5693.2018.v10.p.29-51" class="uri">https://doi.org/10.22407/1984-5693.2018.v10.p.29-51</a>.</p></li>
+<li><p><em>como escolher entre um teste nao parametrico e um teste parametrico</em>. Minitab, 2019. Disponível na internet: &lt; <a href="https://blog.minitab.com/pt/como-escolher-entre-um-teste-nao-parametrico-e-um-teste-parametrico" class="uri">https://blog.minitab.com/pt/como-escolher-entre-um-teste-nao-parametrico-e-um-teste-parametrico</a> &gt;</p></li>
+</ol>
 </div>
 
    
