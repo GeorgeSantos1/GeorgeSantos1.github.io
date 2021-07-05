@@ -1,5 +1,5 @@
 # GeorgeSantos1.github.io
 
-Diretório com arquivos relacionados a criação do website que servirá de portfólio
+Diretório com arquivos relacionados ao portfólio de projetos.
 
-Website: https://georgesantos1.github.io/
+Link para portfólio: https://georgesantos1.github.io/
