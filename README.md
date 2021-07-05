@@ -1,4 +1,4 @@
-# GeorgeSantos1.github.io
+# Página Pessoal (Portfólio)
 
 Diretório com arquivos relacionados ao portfólio de projetos.
 
