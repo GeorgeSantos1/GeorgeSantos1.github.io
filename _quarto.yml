@@ -12,9 +12,9 @@ website:
       - text: "Educação"
         href: 2educacao.qmd
       - text: "Experiência"
-        href: 3exp.qmd
+        href: 3experiencia.qmd
       - text: "Projetos"
-        href: 4proj.qmd
+        href: 4projetos.qmd
 
   page-footer: 
     center: "Website made with Quarto | George Anderson"
@@ -26,5 +26,4 @@ format:
     toc: true
 
 editor: visual
-output-dir: docs
 
