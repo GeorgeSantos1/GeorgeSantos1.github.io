@@ -1,0 +1,67 @@
+---
+title: ""
+format:
+  html:
+    toc: false
+    page-layout: full
+    css: styles.css
+---
+
+<h1 class="page-title"> Experiência Profissional </h1>
+
+::::::::: experience-container
+
+::::: experience-item
+::: exp-left
+### Pesquisador I/ Analista de Confiabilidade
+
+<p class="exp-org">
+<i>Senai CIMATEC</i>
+</p>
+
+<p class="exp-desc">
+Desenvolvimento e aplicação de metodologias voltadas para a Análise de Confiabilidade de equipamentos e/ou sistemas.
+</p>
+:::
+
+::: exp-right
+Maio 2024 – Março 2025
+:::
+:::::
+
+::::: experience-item
+::: exp-left
+### Cientista de dados
+
+<p class="exp-org">
+<i>Conselho Nacional de Desenvolvimento Científico e Tecnológico</i>
+</p>
+
+<p class="exp-desc">
+Desenvolvimento e aplicação de métodos estatísticos e/ou machine learning em em grandes bases de dados. Também responsável por realizar criação de modelos, análises descritivas, criação/extração de features, limpeza e reestruturação de bases de dados de alta dimensão.
+</p>
+:::
+
+::: exp-right
+Outubro 2021 – Junho 2022
+:::
+:::::
+
+::::: experience-item
+::: exp-left
+### Estatístico/Bolsista de Iniciação científica
+
+<p class="exp-org">
+<i> Instituto de Saúde Coletiva (UFBA)/ Universidade Federal da Bahia </i>
+</p>
+
+<p class="exp-desc">
+Atuação como bolsista de iniciação cientifica no projeto Desenvolvimento Infantil na Comunidade (ISC/UFBA), onde fui responsável pela montagem das bases de dados (seleção de participantes, descarregamento de tablets com questionários aplicados, limpeza e extração de dados, manipulação e merge entre bases de questionários aplicados), aplicação de métodos estatísticos, criação de relatórios para acompanhamento do progresso da coleta, apoio na elaboração de materiais apresentados em seminários/congressos/reuniões e participação em escrita de artigos científicos.
+</p>
+:::
+
+::: exp-right
+Dezembro 2017 – Janeiro 2021
+:::
+:::::
+:::::::::

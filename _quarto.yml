@@ -1,0 +1,30 @@
+project:
+  type: website
+
+website:
+  navbar:
+    background: primary
+    title: "George Anderson"
+    search: false
+    right:
+      - text: "Sobre"
+        href: 1sobre.qmd
+      - text: "Educação"
+        href: 2educacao.qmd
+      - text: "Experiência"
+        href: 3exp.qmd
+      - text: "Projetos"
+        href: 4proj.qmd
+
+  page-footer: 
+    center: "Website made with Quarto | George Anderson"
+
+format:
+  html:
+    theme: lux
+    css: styles.css
+    toc: true
+
+editor: visual
+output-dir: docs
+
