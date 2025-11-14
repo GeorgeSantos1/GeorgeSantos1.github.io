@@ -56,11 +56,6 @@ html, body {
  text-align: center;
 }
 
-.bio-text {
- display: flex;
- justify-content: center
-}
-
 p {
  font-size: 1.0rem;
 }
