@@ -7,34 +7,40 @@ format:
     css: styles.css
 ---
 
-<h1 class="page-title"> Formação acadêmica </h1>
+<h1 class="page-title">
+Formação acadêmica
+</h1>
 
-::::: education-container
-:::: education-item
-
-<img src="img/ufba1.png" alt="UFBA" class="edu-logo">
+::::::::: education-container
+::::: education-item
+<img src="img/ufba1.png" alt="UFBA" class="edu-logo"/>
 
 ::: edu-left
 <h3>Universidade Federal da Bahia (UFBA)</h3>
+
 <p><i>Mestrado em Matemática (Concentração em Estatística)</i></p>
-- Dissertação: Desenvolvimento de metodologias estatísticas para modelagem e monitoramento da degradação da performance de sistemas reparáveis.
+
+-   Dissertação: Desenvolvimento de metodologias estatísticas para modelagem da degradação da performance de sistemas reparáveis.
 :::
+
 ::: edu-right
-<p>2023 – Atual</p>
+<p>2023 – 2025</p>
 :::
-::::
+:::::
 
-:::: education-item
-
-<img src="img/ufba1.png" alt="UFBA" class="edu-logo">
+::::: education-item
+<img src="img/ufba1.png" alt="UFBA" class="edu-logo"/>
 
 ::: edu-left
 <h3>Universidade Federal da Bahia (UFBA)</h3>
+
 <p><i>Bacharelado em Estatística</i></p>
-- Trabalho de Conclusão: Modelos de mistura na avaliação de efeitos de transtornos mentais comuns no desenvolvimento cognitivo infantil na primeira infância.
+
+-   Trabalho de Conclusão: Modelos de mistura na avaliação de efeitos de transtornos mentais comuns no desenvolvimento cognitivo infantil na primeira infância.
 :::
+
 ::: edu-right
 <p>2016 – 2020</p>
 :::
-::::
 :::::
+:::::::::

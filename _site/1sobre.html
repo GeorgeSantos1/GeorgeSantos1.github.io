@@ -140,6 +140,9 @@ Vivência em projetos de pesquisa nas áreas de Saúde Coletiva e Petróleo e G�
 </div>
 </div>
 <div class="social-links">
+<p><a href="CV/Curriculum_Vitae.pdf" class="btn-download" download=""> Download Currículo </a></p>
+</div>
+<div class="social-links">
 <p><a href="https://github.com/GeorgeSantos1" target="_blank"> <img src="img/icons/github.png" alt="GitHub"> </a> <a href="https://www.linkedin.com/in/george-anderson-4a5789190/" target="_blank"> <img src="img/icons/linkedin.png" alt="LinkedIn"> </a> <a href="mailto:g.anderson.stat@gmail.com" target="_blank"> <img src="img/icons/email.png" alt="Gmail"> </a></p>
 </div>
 
@@ -236,7 +239,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/GeorgeSantos1\.github\.io\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
