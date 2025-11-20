@@ -6,8 +6,6 @@ project:
 
 website:
 
-  title: "George Anderson"
-
   navbar:
 
     background: primary
@@ -20,19 +18,19 @@ website:
 
       - text: "Sobre"
 
-        href: 1Sobre.qmd
+        href: 1sobre.qmd
 
       - text: "Educação"
 
-        href: 2Educacao.qmd
+        href: 2educacao.qmd
 
       - text: "Experiência"
 
-        href: 3Experiencia.qmd
+        href: 3experiencia.qmd
 
       - text: "Projetos"
 
-        href: 4Projetos.qmd
+        href: 4projetos.qmd
 
 
 

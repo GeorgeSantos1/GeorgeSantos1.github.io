@@ -12,27 +12,20 @@ George Anderson
 </h1>
 
 <h1 class="page-subtitle">
-
-Estatístico - Cientista de Dados
-
+Estatístico - Cientista de Dados - Especialista em Confiabilidade
 </h1>
 
 :::: bio-container
 <img src="img/FOTO_GAAS.jpg" alt="Foto de perfil" class="bio-photo"/>
 
 ::: bio-text
-<p>Estatístico, graduado pela Universidade Federal da Bahia. Atua na área de estatística aplicada, com experiência em Análise de Sobrevivência e Confiabilidade, Modelagem de Séries Temporais, Métodos Multivariados e Análise de Dados Epidemiológicos, além de técnicas avançadas de Machine Learning, Deep Learning e Modelos de Linguagem Natural (LLMs).</p>
-
-<p>Vivência em projetos de pesquisa nas áreas de Saúde Coletiva e Petróleo e Gás, com participação em produções científicas. Atualmente, membro do Centro de Estudo de Risco (CER-UFBA) e mestrando em Matemática (concentração em Estatística) pela Universidade Federal da Bahia.\
-</p>
+<p style="text-align: justify;">Estatístico com Mestrado em Matemática (ênfase em Estatística) pela Universidade Federal da Bahia. Atua na área de estatística aplicada, com experiência em Análise de Sobrevivência e Confiabilidade, Modelagem de Séries Temporais, Métodos Multivariados e Análise de Dados Epidemiológicos, além de técnicas avançadas de Machine Learning, Deep Learning e Modelos de Linguagem Natural (LLMs). Vivência em projetos de pesquisa nas áreas de Saúde Coletiva e Petróleo e Gás, com participação em produções científicas.</p>
 :::
 ::::
 
-<div class="social-links">
-  <a href="CV/Curriculum_Vitae.pdf" class="btn-download" download>
-    Download Currículo
-  </a>
-</div>
+::: social-links
+<a href="CV/Curriculum_Vitae.pdf" class="btn-download" download> Download Currículo </a>
+:::
 
 ::: social-links
 <a href="https://github.com/GeorgeSantos1" target="_blank"> <img src="img/icons/github.png" alt="GitHub"/> </a> <a href="https://www.linkedin.com/in/george-anderson-4a5789190/" target="_blank"> <img src="img/icons/linkedin.png" alt="LinkedIn"/> </a> <a href="mailto:g.anderson.stat@gmail.com" target="_blank"> <img src="img/icons/email.png" alt="Gmail"/> </a>
